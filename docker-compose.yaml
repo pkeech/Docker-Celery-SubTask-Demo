@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  director:
+    build:
+      context: ./App
+      target: Development
+    image: pkeech/docker-celery-subtask-demo:dev
+    volumes:
+      - ./App/src:/app
+    ports:
+      - 8083:80
+
+  redis:
+    build:
+      context: ./Database
+      target: Production
+    image: pkeech/docker-celery-subtask-demo-rd:latest
+    volumes:
+      - Redis_Director_Data:/data
+
+volumes:
+  Redis_Director_Data:

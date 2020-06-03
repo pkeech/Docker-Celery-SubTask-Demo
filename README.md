@@ -1,2 +1,5 @@
 # Docker-Celery-SubTask-Demo
-Demonstrate Celery Tasks and SubTasks
+
+This demo demonstrate Celery Tasks and SubTasks
+
+THIS IS A WORK IN PROGRESS!
