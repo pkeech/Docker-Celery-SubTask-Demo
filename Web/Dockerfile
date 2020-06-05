@@ -8,16 +8,13 @@ FROM Builder AS Dependencies
 
 ## APPLICATION DEPENDENCIES
 COPY requirements.txt /app/requirements.txt
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 
 ## DEV IMAGE
 FROM Dependencies AS Development
 LABEL Maintainer="Peter Keech <pkeech@ngds.com>"
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-ENV FLASK_ENV=development 
-ENV FLASK_RUN_PORT=80
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 FLASK_APP=run.py FLASK_ENV=development FLASK_RUN_PORT=80
 CMD ["flask", "run", "--host=0.0.0.0"]
 
 ## TEST IMAGE

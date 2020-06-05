@@ -1,13 +1,13 @@
 version: "3.7"
 
 services:
-  director:
+  web:
     build:
-      context: ./App
+      context: ./Web
       target: Development
     image: pkeech/docker-celery-subtask-demo:dev
     volumes:
-      - ./App/src:/app
+      - ./Web:/app
     ports:
       - 8083:80
 
@@ -18,6 +18,23 @@ services:
     image: pkeech/docker-celery-subtask-demo-rd:latest
     volumes:
       - Redis_Director_Data:/data
+
+  worker:
+    build:
+      context: ./Tasks
+      target: Production      
+    image: pkeech/docker-celery-subtask-demo-worker:dev
+    depends_on:
+      - redis
+
+  flower:
+    image: mher/flower
+    container_name: docker-celery-subtask-demo-flower
+    command: ["flower", "--broker=redis://:Pa55w0rd!@redis:6379", "--port=5555", "--purge_offline_workers=True"]  
+    ports:
+      - 5556:5555
+    depends_on:
+      - redis
 
 volumes:
   Redis_Director_Data:
