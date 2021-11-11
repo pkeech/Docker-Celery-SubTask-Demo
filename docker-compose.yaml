@@ -4,7 +4,7 @@ services:
   web:
     build:
       context: ./Web
-      target: Development
+      target: development
     image: pkeech/docker-celery-subtask-demo:dev
     volumes:
       - ./Web:/app
@@ -14,7 +14,7 @@ services:
   redis:
     build:
       context: ./Database
-      target: Production
+      target: production
     image: pkeech/docker-celery-subtask-demo-rd:latest
     volumes:
       - Redis_Director_Data:/data
@@ -22,7 +22,7 @@ services:
   worker:
     build:
       context: ./Tasks
-      target: Production      
+      target: production      
     image: pkeech/docker-celery-subtask-demo-worker:dev
     depends_on:
       - redis

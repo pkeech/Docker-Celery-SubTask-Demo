@@ -1,18 +1,18 @@
 ## BASE IMAGE
-FROM redis:6.0-rc-buster AS BUILDER
+FROM redis:6.0-rc-buster AS builder
 LABEL Maintainer="Peter Keech <pkeech@ngds.com>"
 RUN apt-get update && apt-get upgrade -y
 
 ## IMAGE DEPENDENCIES
-FROM Builder AS Dependencies
+FROM builder AS dependencies
 
 ## DEV IMAGE
-FROM Dependencies AS Development
+FROM dependencies AS development
 CMD ["redis-server", "--requirepass Pa55w0rd!"]
 
 ## TEST IMAGE
-FROM Dependencies AS Test
+FROM dependencies AS test
 
 ## PRODUCTION IMAGE
-FROM Dependencies AS Production
+FROM dependencies AS production
 CMD ["redis-server", "--requirepass Pa55w0rd!"]

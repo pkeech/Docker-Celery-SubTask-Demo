@@ -1,10 +1,10 @@
 ## BASE IMAGE
-FROM python:3.8.2-slim-buster AS Builder
+FROM python:3.8.2-slim-buster AS builder
 RUN apt-get update && apt-get upgrade -y
 WORKDIR /app
 
 ## IMAGE DEPENDENCIES
-FROM Builder AS Dependencies
+FROM builder AS dependencies
 
 ## APPLICATION DEPENDENCIES
 COPY requirements.txt /app/requirements.txt
@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 
 ## PRODUCTION IMAGE
-FROM Dependencies AS Production
+FROM dependencies AS production
 ENV FLASK_ENV=production
 EXPOSE 8080
 CMD ["celery", "-A", "app.app", "worker", "--loglevel=info"]
